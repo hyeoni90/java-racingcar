@@ -15,10 +15,8 @@ public class Car {
     private int location;
     private final Movable movable;
 
-    public Car(final String name) {
-        this.name = validateName(name);
-        this.location = INITIAL_LOCATION;
-        this.movable = new CarMovable();
+    private Car(final String name) {
+        this(name, new CarMovable());
     }
 
     public Car(final String name, final Movable movable) {

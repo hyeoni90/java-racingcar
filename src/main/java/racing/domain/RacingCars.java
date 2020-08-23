@@ -5,6 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+
 public class RacingCars {
     private static final int INITIAL_LOCATION = 0;
 
@@ -15,11 +18,9 @@ public class RacingCars {
     }
 
     public static RacingCars of(final List<String> carNames) {
-        final List<Car> racingCars = new ArrayList<>();
-        for (final String name : carNames) {
-            racingCars.add(Car.of(name));
-        }
-        return new RacingCars(racingCars);
+        return carNames.stream()
+                .map(Car::of)
+                .collect(collectingAndThen(toList(), RacingCars::new));
     }
 
     public List<Car> getCars() {
@@ -39,7 +40,7 @@ public class RacingCars {
         return this.cars.stream()
                 .filter(car -> car.isCorrectMaxLocation(maxLocation))
                 .map(Car::getName)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     public List<Car> raceOfCars(final List<Car> cars) {
